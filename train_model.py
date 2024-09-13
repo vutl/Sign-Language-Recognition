@@ -1,7 +1,8 @@
 import os
 import warnings
 import cv2
-import keras
+import tensorflow as tf
+from tensorflow import keras
 import matplotlib.pyplot as plt
 import matplotlib.style as style
 import numpy as np
@@ -13,7 +14,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import Dense, Dropout, Flatten
 from keras.models import Model
 from keras.preprocessing import image as image_utils
-from keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from keras.utils import to_categorical
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
@@ -46,7 +47,7 @@ gesture_names = {0: 'E',
 
 
 image_path = 'data'
-models_path = 'models/saved_model.hdf5'
+models_path = 'models/saved_model.keras'
 rgb = False
 imageSize = 224
 
@@ -105,7 +106,7 @@ early_stopping = EarlyStopping(monitor='val_acc',
                                min_delta=0,
                                patience=10,
                                verbose=1,
-                               mode='auto',
+                               mode='max',
                                restore_best_weights=True)
 
 # Khoi tao model
@@ -131,7 +132,7 @@ for layer in base_model.layers:
     layer.trainable = False
 
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
-model.fit(X_train, y_train, epochs=50, batch_size=64, validation_data=(X_test, y_test), verbose=1,
+model.fit(X_train, y_train, epochs=20, batch_size=64, validation_data=(X_test, y_test), verbose=1,
           callbacks=[early_stopping, model_checkpoint])
 
 # Luu model da train ra file

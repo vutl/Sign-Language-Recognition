@@ -60,7 +60,7 @@ isBgCaptured = 0  # Bien luu tru da capture background chua
 
 # Camera
 camera = cv2.VideoCapture(0)
-camera.set(10,200)
+camera.set(100,200)
 camera.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.01)
 
 while camera.isOpened():
